@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EthioBox | Translation Sandwich</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000000;
+      --panel: #060907;
+      --panel-2: #0a0f0c;
+      --text: #f5fff9;
+      --muted: #92a49a;
+      --line: rgba(16, 185, 129, 0.24);
+      --emerald: #00ff66;
+      --emerald-soft: #10b981;
+      --danger: #ff5c7a;
+      --shadow: 0 0 34px rgba(0, 255, 102, 0.24);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--bg);
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(0, 255, 102, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 102, 0.026) 1px, transparent 1px),
+        linear-gradient(145deg, #000000 0%, #020302 48%, #061008 100%);
+      background-size: 56px 56px, 56px 56px, auto;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      user-select: none;
+    }
+
+    .intro {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: #000000;
+      transition: opacity 900ms ease, visibility 900ms ease;
+    }
+
+    .intro::before {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      background:
+        linear-gradient(rgba(0, 255, 102, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 102, 0.05) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(circle at center, #000 0%, transparent 72%);
+      animation: gridDrift 8s linear infinite;
+    }
+
+    .intro::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -20%;
+      height: 18rem;
+      background: linear-gradient(180deg, transparent, rgba(0, 255, 102, 0.22), transparent);
+      opacity: 0.62;
+      animation: scanLine 2.7s ease-in-out infinite;
+    }
+
+    .intro.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-frame {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: min(760px, calc(100% - 2rem));
+      min-height: 420px;
+      padding: clamp(1.25rem, 5vw, 3rem);
+      border: 1px solid rgba(0, 255, 102, 0.24);
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(5, 9, 7, 0.74), rgba(0, 0, 0, 0.9));
+      box-shadow: 0 0 80px rgba(0, 255, 102, 0.12), inset 0 0 42px rgba(0, 255, 102, 0.06);
+      text-align: center;
+    }
+
+    .intro-frame::before,
+    .intro-frame::after {
+      content: "";
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      border-color: rgba(0, 255, 102, 0.62);
+      pointer-events: none;
+    }
+
+    .intro-frame::before {
+      top: 0.75rem;
+      left: 0.75rem;
+      border-top: 1px solid;
+      border-left: 1px solid;
+    }
+
+    .intro-frame::after {
+      right: 0.75rem;
+      bottom: 0.75rem;
+      border-right: 1px solid;
+      border-bottom: 1px solid;
+    }
+
+    .presenter {
+      position: absolute;
+      top: 38%;
+      color: rgba(245, 255, 249, 0.94);
+      font-family: "JetBrains Mono", monospace;
+      font-size: clamp(1.25rem, 3vw, 2.15rem);
+      letter-spacing: 0;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: presentInOut 1.55s ease forwards;
+    }
+
+    .boot-lines {
+      position: absolute;
+      bottom: 2.1rem;
+      left: clamp(1rem, 5vw, 3rem);
+      right: clamp(1rem, 5vw, 3rem);
+      display: grid;
+      gap: 0.45rem;
+      color: rgba(146, 164, 154, 0.88);
+      font-family: "JetBrains Mono", monospace;
+      font-size: clamp(0.68rem, 2vw, 0.82rem);
+      text-align: left;
+    }
+
+    .boot-line {
+      display: flex;
+      gap: 0.6rem;
+      opacity: 0;
+      animation: fadeUp 500ms ease forwards;
+    }
+
+    .boot-line:nth-child(1) {
+      animation-delay: 280ms;
+    }
+
+    .boot-line:nth-child(2) {
+      animation-delay: 580ms;
+    }
+
+    .boot-line:nth-child(3) {
+      animation-delay: 880ms;
+    }
+
+    .boot-line strong {
+      color: var(--emerald);
+      font-weight: 700;
+    }
+
+    .intro-title {
+      display: inline-flex;
+      align-items: center;
+      min-height: 4.5rem;
+      color: var(--emerald);
+      font-size: clamp(3.1rem, 12vw, 8.5rem);
+      font-weight: 900;
+      line-height: 1;
+      text-shadow: 0 0 14px rgba(0, 255, 102, 0.9), 0 0 44px rgba(0, 255, 102, 0.54);
+      opacity: 0;
+      filter: saturate(1.25);
+    }
+
+    .intro-title.is-typing {
+      opacity: 1;
+      animation: neonPulse 850ms ease-in-out infinite alternate;
+    }
+
+    .intro-subtitle {
+      min-height: 1.4rem;
+      margin-top: 0.9rem;
+      color: var(--muted);
+      font-family: "JetBrains Mono", monospace;
+      font-size: clamp(0.75rem, 2vw, 0.95rem);
+      opacity: 0;
+    }
+
+    .intro-subtitle.is-visible {
+      opacity: 1;
+      animation: fadeUp 500ms ease both;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 800ms ease, transform 800ms ease;
+    }
+
+    .app-shell.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .dashboard {
+      width: min(1180px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: clamp(1.25rem, 4vw, 3rem) 0;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 4rem;
+      margin-bottom: clamp(1.25rem, 4vw, 2.5rem);
+      animation: fadeUp 700ms ease both;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 2.7rem;
+      height: 2.7rem;
+      border: 1px solid rgba(0, 255, 102, 0.55);
+      border-radius: 8px;
+      color: var(--emerald);
+      background: rgba(0, 255, 102, 0.06);
+      box-shadow: var(--shadow);
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      animation: pulseMark 2.8s ease-in-out infinite;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(1.55rem, 4vw, 2.55rem);
+      line-height: 1;
+    }
+
+    .typing-line {
+      display: inline-block;
+      min-height: 1.2em;
+      white-space: pre-wrap;
+    }
+
+    .typing-line::after {
+      content: "";
+      display: inline-block;
+      width: 0.56em;
+      height: 1em;
+      margin-left: 0.12em;
+      border-right: 2px solid var(--emerald);
+      transform: translateY(0.15em);
+      animation: caret 850ms steps(1) infinite;
+    }
+
+    .typing-line.is-done::after {
+      display: none;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-height: 2rem;
+      padding: 0.45rem 0.8rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(10, 15, 12, 0.78);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+      animation: fadeUp 700ms 160ms ease both;
+    }
+
+    .status-dot {
+      width: 0.48rem;
+      height: 0.48rem;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 14px rgba(0, 255, 102, 0.85);
+      animation: dotPulse 1.6s ease-in-out infinite;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(340px, 1.05fr);
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .panel,
+    .chat-panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(10, 15, 12, 0.94), rgba(4, 6, 5, 0.96));
+      box-shadow: 0 20px 70px rgba(0, 0, 0, 0.5);
+      animation: fadeUp 760ms ease both;
+    }
+
+    .panel {
+      padding: clamp(1rem, 3vw, 1.4rem);
+    }
+
+    .panel-title {
+      margin: 0 0 0.45rem;
+      color: var(--text);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 700;
+    }
+
+    .panel-copy {
+      min-height: 3.1rem;
+      margin: 0 0 1rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .voice-controls {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.55rem;
+      margin: 0 0 0.8rem;
+    }
+
+    .speech-status {
+      min-height: 1.3rem;
+      margin-bottom: 0.8rem;
+      color: var(--muted);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.75rem;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 260px;
+      resize: vertical;
+      padding: 1rem;
+      border: 1px solid rgba(16, 185, 129, 0.32);
+      border-radius: 8px;
+      outline: none;
+      color: var(--text);
+      background: #000000;
+      line-height: 1.7;
+      transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+    }
+
+    textarea::placeholder {
+      color: rgba(146, 164, 154, 0.68);
+    }
+
+    textarea:focus {
+      border-color: rgba(0, 255, 102, 0.82);
+      box-shadow: 0 0 0 3px rgba(0, 255, 102, 0.1), var(--shadow);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .count {
+      color: var(--muted);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.76rem;
+      animation: fadeUp 700ms 220ms ease both;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 0.65rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.75rem;
+      padding: 0.72rem 0.9rem;
+      border: 1px solid rgba(0, 255, 102, 0.42);
+      border-radius: 8px;
+      color: #001f0c;
+      background: linear-gradient(135deg, var(--emerald), var(--emerald-soft));
+      box-shadow: 0 0 26px rgba(0, 255, 102, 0.24);
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease, border-color 160ms ease;
+    }
+
+    .btn.secondary,
+    .btn.voice {
+      color: var(--emerald);
+      background: rgba(0, 255, 102, 0.05);
+    }
+
+    .btn.voice {
+      min-height: 2.35rem;
+      padding: 0.55rem 0.55rem;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+    }
+
+    .btn.is-active {
+      color: #001f0c;
+      background: linear-gradient(135deg, var(--emerald), #d4ffe4);
+      box-shadow: 0 0 34px rgba(0, 255, 102, 0.48);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 38px rgba(0, 255, 102, 0.45);
+      filter: brightness(1.08);
+    }
+
+    .btn:active {
+      transform: translateY(0) scale(0.97);
+    }
+
+    .btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.56;
+      transform: none;
+      filter: none;
+    }
+
+    .chat-panel {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-height: 620px;
+      overflow: hidden;
+    }
+
+    .chat-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 1rem 1rem 0.85rem;
+      border-bottom: 1px solid rgba(16, 185, 129, 0.18);
+    }
+
+    .chat-head h2 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .model-label {
+      color: var(--emerald);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+    }
+
+    .messages {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      min-height: 0;
+      max-height: 580px;
+      overflow-y: auto;
+      padding: 1rem;
+      scrollbar-color: rgba(0, 255, 102, 0.6) rgba(255, 255, 255, 0.05);
+    }
+
+    .message {
+      width: min(92%, 760px);
+      padding: 0.85rem 0.95rem;
+      border: 1px solid rgba(16, 185, 129, 0.18);
+      border-radius: 8px;
+      line-height: 1.65;
+      animation: fadeUp 420ms ease both;
+    }
+
+    .message.user {
+      align-self: flex-end;
+      border-color: rgba(0, 255, 102, 0.32);
+      background: rgba(0, 255, 102, 0.08);
+    }
+
+    .message.ai {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .message.meta {
+      width: 100%;
+      color: var(--muted);
+      background: rgba(16, 185, 129, 0.045);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.76rem;
+    }
+
+    .message.error {
+      width: 100%;
+      border-color: rgba(255, 92, 122, 0.45);
+      color: #ffd7df;
+      background: rgba(255, 92, 122, 0.08);
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--emerald);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+    }
+
+    .message.error .label {
+      color: #ff9aab;
+    }
+
+    .detail-line {
+      margin-top: 0.7rem;
+      color: var(--muted);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      overflow-wrap: anywhere;
+    }
+
+    .loader {
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.95rem 1rem 1rem;
+      border-top: 1px solid rgba(16, 185, 129, 0.18);
+      color: var(--muted);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+    }
+
+    .loader.is-active {
+      display: flex;
+      animation: fadeUp 220ms ease both;
+    }
+
+    .pulse-bar {
+      position: relative;
+      width: 5.5rem;
+      height: 0.5rem;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(0, 255, 102, 0.11);
+      box-shadow: inset 0 0 10px rgba(0, 255, 102, 0.16);
+    }
+
+    .pulse-bar::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 42%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, transparent, var(--emerald), transparent);
+      box-shadow: 0 0 18px rgba(0, 255, 102, 0.85);
+      animation: loadingPulse 1s ease-in-out infinite;
+    }
+
+    .footer-note {
+      min-height: 1.2rem;
+      color: rgba(146, 164, 154, 0.72);
+      font-size: 0.78rem;
+      margin-top: 1rem;
+      animation: fadeUp 760ms 280ms ease both;
+    }
+
+    @keyframes presentInOut {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      25%,
+      70% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-14px);
+      }
+    }
+
+    @keyframes neonPulse {
+      from {
+        text-shadow: 0 0 10px rgba(0, 255, 102, 0.82), 0 0 34px rgba(0, 255, 102, 0.4);
+        transform: scale(0.996);
+      }
+      to {
+        text-shadow: 0 0 20px rgba(0, 255, 102, 1), 0 0 72px rgba(0, 255, 102, 0.72);
+        transform: scale(1.01);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes caret {
+      0%,
+      49% {
+        opacity: 1;
+      }
+      50%,
+      100% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes pulseMark {
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(0, 255, 102, 0.16);
+      }
+      50% {
+        box-shadow: 0 0 38px rgba(0, 255, 102, 0.42);
+      }
+    }
+
+    @keyframes dotPulse {
+      0%,
+      100% {
+        opacity: 0.55;
+        transform: scale(0.82);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes loadingPulse {
+      from {
+        transform: translateX(-100%);
+      }
+      to {
+        transform: translateX(250%);
+      }
+    }
+
+    @keyframes gridDrift {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+      to {
+        transform: translate3d(42px, 42px, 0);
+      }
+    }
+
+    @keyframes scanLine {
+      0% {
+        transform: translateY(-40%);
+      }
+      100% {
+        transform: translateY(760%);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .topbar,
+      .actions {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .voice-controls {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .button-row,
+      .btn {
+        width: 100%;
+      }
+
+      .chat-panel {
+        min-height: 500px;
+      }
+
+      .message {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="intro" id="intro" aria-label="EthioBox introduction">
+    <div class="intro-frame">
+      <div class="presenter">Abiye presents</div>
+      <div>
+        <div class="intro-title" id="introTitle" aria-label="EthioBox"></div>
+        <div class="intro-subtitle" id="introSubtitle"></div>
+      </div>
+      <div class="boot-lines" aria-hidden="true">
+        <div class="boot-line"><strong>01</strong><span>Initializing Amharic speech bridge</span></div>
+        <div class="boot-line"><strong>02</strong><span>Loading translation sandwich relay</span></div>
+        <div class="boot-line"><strong>03</strong><span>Syncing Gemini response channel</span></div>
+      </div>
+    </div>
+  </section>
+
+  <main class="app-shell" id="appShell">
+    <section class="dashboard">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">EB</div>
+          <div>
+            <h1><span class="typing-line" data-type-text="EthioBox"></span></h1>
+          </div>
+        </div>
+        <div class="status-pill">
+          <span class="status-dot"></span>
+          <span class="typing-line" data-type-text="AMHARIC <-> ENGLISH <-> GEMINI"></span>
+        </div>
+      </header>
+
+      <div class="grid">
+        <section class="panel" aria-labelledby="composerTitle">
+          <h2 class="panel-title" id="composerTitle">
+            <span class="typing-line" data-type-text="Translation Sandwich Console"></span>
+          </h2>
+          <p class="panel-copy">
+            <span class="typing-line" data-type-text="Write or speak in Amharic. EthioBox translates your message to English, routes it through Gemini, then returns the answer in Amharic."></span>
+          </p>
+
+          <form id="chatForm">
+            <div class="voice-controls" aria-label="Speech controls">
+              <button class="btn voice" type="button" id="micBtn"><span class="typing-line" data-type-text="Voice input"></span></button>
+              <button class="btn voice" type="button" id="stopMicBtn"><span class="typing-line" data-type-text="Stop mic"></span></button>
+              <button class="btn voice" type="button" id="speakBtn"><span class="typing-line" data-type-text="Speak answer"></span></button>
+              <button class="btn voice" type="button" id="stopSpeakBtn"><span class="typing-line" data-type-text="Stop voice"></span></button>
+              <button class="btn voice is-active" type="button" id="autoVoiceBtn" aria-pressed="true"><span id="autoVoiceLabel" class="typing-line" data-type-text="Auto voice on"></span></button>
+            </div>
+
+            <div class="speech-status" id="speechStatus">
+              <span class="typing-line" data-type-text="Speech tools are ready on supported browsers."></span>
+            </div>
+
+            <div class="input-wrap">
+              <textarea id="messageInput" maxlength="4000" placeholder="የአማርኛ መልእክትዎን እዚህ ይጻፉ..." required></textarea>
+            </div>
+
+            <div class="actions">
+              <span class="count" id="counter">0 / 4000</span>
+              <div class="button-row">
+                <button class="btn secondary" type="button" id="clearBtn"><span class="typing-line" data-type-text="Clear"></span></button>
+                <button class="btn" type="submit" id="sendBtn"><span class="typing-line" data-type-text="Send to EthioBox"></span></button>
+              </div>
+            </div>
+          </form>
+
+          <p class="footer-note">
+            <span class="typing-line" data-type-text="Backend path: Amharic input -> deep_translator -> Gemini -> deep_translator -> Amharic output."></span>
+          </p>
+        </section>
+
+        <section class="chat-panel" aria-labelledby="chatTitle">
+          <div class="chat-head">
+            <h2 id="chatTitle"><span class="typing-line" data-type-text="Live Bridge"></span></h2>
+            <span class="model-label"><span class="typing-line" data-type-text="gemini-3.1-flash"></span></span>
+          </div>
+
+          <div class="messages" id="messages" aria-live="polite">
+            <article class="message meta">
+              <span class="label">System</span>
+              <span class="typing-line" data-type-text="EthioBox is ready. Type or speak an Amharic prompt to begin the bridge."></span>
+            </article>
+          </div>
+
+          <div class="loader" id="loader">
+            <span class="pulse-bar" aria-hidden="true"></span>
+            <span class="typing-line" data-type-text="Translating, thinking, translating back..."></span>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const intro = document.getElementById("intro");
+    const introTitle = document.getElementById("introTitle");
+    const introSubtitle = document.getElementById("introSubtitle");
+    const appShell = document.getElementById("appShell");
+    const chatForm = document.getElementById("chatForm");
+    const messageInput = document.getElementById("messageInput");
+    const messages = document.getElementById("messages");
+    const loader = document.getElementById("loader");
+    const sendBtn = document.getElementById("sendBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const counter = document.getElementById("counter");
+    const micBtn = document.getElementById("micBtn");
+    const stopMicBtn = document.getElementById("stopMicBtn");
+    const speakBtn = document.getElementById("speakBtn");
+    const stopSpeakBtn = document.getElementById("stopSpeakBtn");
+    const autoVoiceBtn = document.getElementById("autoVoiceBtn");
+    const autoVoiceLabel = document.getElementById("autoVoiceLabel");
+    const speechStatus = document.getElementById("speechStatus");
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    let recognition = null;
+    let isListening = false;
+    let latestAiText = "";
+    let autoSpeak = true;
+    let speechStatusTimer = null;
+    let availableVoices = [];
+
+    function typeInto(element, text, speed = 34) {
+      return new Promise((resolve) => {
+        element.classList.remove("is-done");
+        element.textContent = "";
+
+        if (prefersReducedMotion) {
+          element.textContent = text;
+          element.classList.add("is-done");
+          resolve();
+          return;
+        }
+
+        let index = 0;
+        const timer = window.setInterval(() => {
+          element.textContent += text.charAt(index);
+          index += 1;
+
+          if (index >= text.length) {
+            window.clearInterval(timer);
+            element.classList.add("is-done");
+            resolve();
+          }
+        }, speed);
+      });
+    }
+
+    async function runIntro() {
+      if (prefersReducedMotion) {
+        intro.classList.add("is-hidden");
+        appShell.classList.add("is-visible");
+        startPageText();
+        return;
+      }
+
+      window.setTimeout(async () => {
+        introTitle.classList.add("is-typing");
+        await typeInto(introTitle, "EthioBox", 78);
+        introSubtitle.classList.add("is-visible");
+        await typeInto(introSubtitle, "Amharic voice bridge online", 24);
+      }, 1500);
+
+      window.setTimeout(() => {
+        intro.classList.add("is-hidden");
+        appShell.classList.add("is-visible");
+        startPageText();
+      }, 4600);
+    }
+
+    function startPageText() {
+      const animatedText = [...document.querySelectorAll("[data-type-text]")];
+      animatedText.forEach((node, index) => {
+        const speed = node.closest(".message") ? 18 : 20;
+        window.setTimeout(() => typeInto(node, node.dataset.typeText, speed), index * 80);
+      });
+    }
+
+    function addMessage(kind, label, text, details = [], options = {}) {
+      const article = document.createElement("article");
+      article.className = `message ${kind}`;
+
+      const labelNode = document.createElement("span");
+      labelNode.className = "label";
+      labelNode.textContent = label;
+
+      const bodyNode = document.createElement("span");
+      bodyNode.className = "typing-line";
+
+      article.append(labelNode, bodyNode);
+
+      details.filter(Boolean).forEach((detail) => {
+        const detailNode = document.createElement("div");
+        detailNode.className = "detail-line";
+        detailNode.textContent = detail;
+        article.append(detailNode);
+      });
+
+      messages.appendChild(article);
+      messages.scrollTop = messages.scrollHeight;
+      const typing = typeInto(bodyNode, text, 16).then(() => {
+        messages.scrollTop = messages.scrollHeight;
+      });
+
+      if (options.speakAfter) {
+        typing.then(() => speakText(text));
+      }
+
+      return article;
+    }
+
+    function setLoading(isLoading) {
+      loader.classList.toggle("is-active", isLoading);
+      sendBtn.disabled = isLoading;
+      messageInput.disabled = isLoading;
+      micBtn.disabled = isLoading || !SpeechRecognition;
+    }
+
+    function updateCounter() {
+      counter.textContent = `${messageInput.value.length} / 4000`;
+    }
+
+    function setSpeechStatus(text) {
+      window.clearTimeout(speechStatusTimer);
+      const node = speechStatus.querySelector(".typing-line") || speechStatus;
+      speechStatusTimer = window.setTimeout(() => typeInto(node, text, 12), 30);
+    }
+
+    function loadVoices() {
+      if (!("speechSynthesis" in window)) {
+        return;
+      }
+      availableVoices = window.speechSynthesis.getVoices();
+    }
+
+    function pickVoice() {
+      const amharicVoice = availableVoices.find((voice) => voice.lang.toLowerCase().startsWith("am"));
+      const englishVoice = availableVoices.find((voice) => voice.lang.toLowerCase().startsWith("en"));
+      return amharicVoice || englishVoice || null;
+    }
+
+    function speakText(text) {
+      if (!("speechSynthesis" in window)) {
+        setSpeechStatus("Text to speech is not supported in this browser.");
+        return;
+      }
+
+      if (!text) {
+        setSpeechStatus("No AI answer is available to speak yet.");
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+      loadVoices();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      const voice = pickVoice();
+      utterance.lang = "am-ET";
+      utterance.rate = 0.92;
+      utterance.pitch = 1;
+      if (voice) {
+        utterance.voice = voice;
+      }
+
+      utterance.onstart = () => setSpeechStatus("Speaking the Amharic answer...");
+      utterance.onend = () => setSpeechStatus("Voice playback finished.");
+      utterance.onerror = () => setSpeechStatus("Voice playback could not start in this browser.");
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function setupSpeechRecognition() {
+      if (!SpeechRecognition) {
+        micBtn.disabled = true;
+        stopMicBtn.disabled = true;
+        setSpeechStatus("Speech recognition is not supported in this browser. Try Chrome or Edge on localhost.");
+        return;
+      }
+
+      recognition = new SpeechRecognition();
+      recognition.lang = "am-ET";
+      recognition.continuous = false;
+      recognition.interimResults = true;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = () => {
+        isListening = true;
+        micBtn.classList.add("is-active");
+        setSpeechStatus("Listening for Amharic speech...");
+      };
+
+      recognition.onresult = (event) => {
+        let interimTranscript = "";
+        let finalTranscript = "";
+
+        for (let index = event.resultIndex; index < event.results.length; index += 1) {
+          const transcript = event.results[index][0].transcript;
+          if (event.results[index].isFinal) {
+            finalTranscript += transcript;
+          } else {
+            interimTranscript += transcript;
+          }
+        }
+
+        const baseText = recognition.baseText || "";
+        const spokenText = (finalTranscript || interimTranscript).trim();
+        messageInput.value = [baseText, spokenText].filter(Boolean).join(" ").trim();
+        updateCounter();
+      };
+
+      recognition.onerror = (event) => {
+        setSpeechStatus(`Speech recognition error: ${event.error}.`);
+      };
+
+      recognition.onend = () => {
+        isListening = false;
+        micBtn.classList.remove("is-active");
+        setSpeechStatus("Speech input stopped. You can edit or send the text.");
+      };
+    }
+
+    chatForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const message = messageInput.value.trim();
+      if (!message) {
+        addMessage("error", "Input", "Please enter or speak an Amharic message first.");
+        return;
+      }
+
+      if (isListening && recognition) {
+        recognition.stop();
+      }
+
+      addMessage("user", "You", message);
+      setLoading(true);
+
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message }),
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          const details = [
+            data.stage ? `Stage: ${data.stage}` : "",
+            data.detail ? `Detail: ${data.detail}` : "",
+          ];
+          throw { message: data.error || "The bridge could not complete this request.", details };
+        }
+
+        latestAiText = data.amharic_response;
+        addMessage(
+          "ai",
+          "EthioBox",
+          data.amharic_response,
+          [`Model used: ${data.model_used}`, `EN prompt: ${data.english_prompt}`],
+          { speakAfter: autoSpeak }
+        );
+        messageInput.value = "";
+        updateCounter();
+      } catch (error) {
+        addMessage("error", "Bridge Error", error.message || "The bridge could not complete this request.", error.details || []);
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    micBtn.addEventListener("click", () => {
+      if (!recognition || isListening) {
+        return;
+      }
+      recognition.baseText = messageInput.value.trim();
+      recognition.start();
+    });
+
+    stopMicBtn.addEventListener("click", () => {
+      if (recognition && isListening) {
+        recognition.stop();
+      }
+    });
+
+    speakBtn.addEventListener("click", () => {
+      speakText(latestAiText);
+    });
+
+    stopSpeakBtn.addEventListener("click", () => {
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+        setSpeechStatus("Voice playback stopped.");
+      }
+    });
+
+    autoVoiceBtn.addEventListener("click", () => {
+      autoSpeak = !autoSpeak;
+      autoVoiceBtn.classList.toggle("is-active", autoSpeak);
+      autoVoiceBtn.setAttribute("aria-pressed", String(autoSpeak));
+      autoVoiceLabel.dataset.typeText = autoSpeak ? "Auto voice on" : "Auto voice off";
+      typeInto(autoVoiceLabel, autoVoiceLabel.dataset.typeText, 12);
+    });
+
+    clearBtn.addEventListener("click", () => {
+      messageInput.value = "";
+      updateCounter();
+      messageInput.focus();
+    });
+
+    messageInput.addEventListener("input", updateCounter);
+
+    if ("speechSynthesis" in window) {
+      loadVoices();
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
+    setupSpeechRecognition();
+    updateCounter();
+    runIntro();
+  </script>
+</body>
+</html>

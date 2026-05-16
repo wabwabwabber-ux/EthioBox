@@ -1,0 +1,4 @@
+flask
+google-generativeai
+deep_translator
+gunicorn
