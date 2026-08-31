@@ -1,14 +1,12 @@
 import logging
-import os
 import socket
 from concurrent.futures import ThreadPoolExecutor, TimeoutError
+from threading import Lock
 
 import google.generativeai as genai
 from deep_translator import GoogleTranslator
 from flask import Flask, jsonify, render_template, request
 
-
-API_KEY = os.environ.get("GEMINI_API_KEY")
 
 app = Flask(__name__)
 
@@ -26,6 +24,10 @@ REQUEST_TIMEOUT_SECONDS = 45
 TRANSLATION_TIMEOUT_SECONDS = 20
 
 executor = ThreadPoolExecutor(max_workers=8)
+# google-generativeai keeps its configured key globally. Serializing just that
+# configuration/request pair prevents one browser-provided key being used by
+# another concurrent request.
+gemini_lock = Lock()
 
 
 class AppError(Exception):
@@ -37,14 +39,14 @@ class AppError(Exception):
         self.detail = detail
 
 
-def clean_error_detail(error):
+def clean_error_detail(error, api_key=None):
     detail = str(error) or error.__class__.__name__
-    if API_KEY:
-        detail = detail.replace(API_KEY, "[hidden]")
+    if api_key:
+        detail = detail.replace(api_key, "[hidden]")
     return detail[:900]
 
 
-def run_with_timeout(label, fn, timeout, stage):
+def run_with_timeout(label, fn, timeout, stage, api_key=None):
     future = executor.submit(fn)
     try:
         return future.result(timeout=timeout)
@@ -59,24 +61,27 @@ def run_with_timeout(label, fn, timeout, stage):
     except AppError:
         raise
     except Exception as exc:
-        logger.warning("%s failed: %s", label, clean_error_detail(exc))
+        detail = clean_error_detail(exc, api_key)
+        logger.warning("%s failed: %s", label, detail)
         raise AppError(
             f"{label} failed. Please try again.",
             status_code=502,
             stage=stage,
-            detail=clean_error_detail(exc),
+            detail=detail,
         ) from exc
 
 
-def get_gemini_model(model_name):
-    if not API_KEY or API_KEY == "YOUR_KEY_HERE":
+def get_gemini_model(model_name, api_key):
+    if not api_key or api_key == "YOUR_KEY_HERE":
         raise AppError(
-            "Gemini API key is missing. Set API_KEY at the top of app.py.",
-            status_code=500,
+            "A Gemini API key is required. Add one in Settings to continue.",
+            status_code=400,
             stage="Gemini",
         )
 
-    genai.configure(api_key=API_KEY)
+    # The client supplies the key it has saved in localStorage with each request.
+    # It is never read from the server environment or included in a response.
+    genai.configure(api_key=api_key)
     return genai.GenerativeModel(
         model_name,
         generation_config={
@@ -106,7 +111,7 @@ def translate_text(text, source, target):
     return translated
 
 
-def ask_gemini(english_prompt):
+def ask_gemini(english_prompt, api_key):
     prompt = (
         "You are EthioBox, a helpful AI bridge for Amharic speakers. "
         "Answer the user's translated English message clearly, warmly, and directly. "
@@ -118,13 +123,13 @@ def ask_gemini(english_prompt):
     model_names = [GEMINI_MODEL_NAME, *GEMINI_FALLBACK_MODEL_NAMES]
 
     for model_name in model_names:
-        model = get_gemini_model(model_name)
-
         def generate():
-            return model.generate_content(
-                prompt,
-                request_options={"timeout": REQUEST_TIMEOUT_SECONDS},
-            )
+            with gemini_lock:
+                model = get_gemini_model(model_name, api_key)
+                return model.generate_content(
+                    prompt,
+                    request_options={"timeout": REQUEST_TIMEOUT_SECONDS},
+                )
 
         try:
             response = run_with_timeout(
@@ -132,6 +137,7 @@ def ask_gemini(english_prompt):
                 generate,
                 REQUEST_TIMEOUT_SECONDS + 5,
                 stage=f"Gemini: {model_name}",
+                api_key=api_key,
             )
         except AppError as exc:
             detail = exc.detail or exc.message
@@ -202,6 +208,7 @@ def health():
 def chat():
     payload = request.get_json(silent=True) or {}
     amharic_input = (payload.get("message") or "").strip()
+    api_key = (payload.get("api_key") or "").strip()
 
     if not amharic_input:
         return jsonify({"error": "Please enter an Amharic message."}), 400
@@ -209,9 +216,17 @@ def chat():
     if len(amharic_input) > 4000:
         return jsonify({"error": "Please keep your message under 4,000 characters."}), 413
 
+    if not api_key:
+        return jsonify(
+            {
+                "error": "A Gemini API key is required. Add one in Settings to continue.",
+                "stage": "Gemini",
+            }
+        ), 400
+
     try:
         english_prompt = translate_text(amharic_input, source="amharic", target="english")
-        english_response, model_used = ask_gemini(english_prompt)
+        english_response, model_used = ask_gemini(english_prompt, api_key)
         amharic_response = translate_text(
             english_response,
             source="english",
