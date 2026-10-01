@@ -36,7 +36,7 @@
 
     .response-card { position:relative; min-height:16rem; padding:1.85rem 2rem 1.7rem; border:1px solid rgba(61,83,115,.1); border-radius:var(--lg); background:var(--surface); box-shadow:var(--shadow); backdrop-filter:blur(16px); }.response-label { display:block; margin-bottom:1.18rem; color:var(--ink); font-size:1.03rem; font-weight:800; }.response-amharic { max-width:calc(100% - 3.6rem); margin-bottom:1.45rem; color:#1e2d48; font-family:"Noto Sans Ethiopic","Inter",sans-serif; font-size:clamp(1.53rem,5.3vw,2.2rem); font-weight:700; line-height:1.52; letter-spacing:-.025em; }.response-english { max-width:27rem; color:var(--ink); font-size:clamp(.99rem,3.5vw,1.16rem); line-height:1.45; }.response-english span { display:block; }.response-english span+span { margin-top:.12rem; }.speak-answer { position:absolute; top:2.85rem; right:1.72rem; width:4.65rem; height:4.65rem; border-radius:50%; color:var(--blue); background:#eaf4ff; }.speak-answer:hover { color:#fff; background:var(--blue); box-shadow:0 8px 18px rgba(20,112,210,.28); transform:translateY(-2px); }.speak-answer svg { width:2.1rem; height:2.1rem; stroke-width:2.2; }
 
-    .voice-stage { display:grid; justify-items:center; padding:clamp(1.9rem,7vw,3.2rem) 0 1.4rem; }.voice-halo { display:grid; place-items:center; width:clamp(15rem,57vw,21rem); height:clamp(15rem,57vw,21rem); border-radius:50%; background:rgba(212,233,251,.6); box-shadow:inset 0 0 0 1.5rem rgba(238,247,255,.76),0 17px 36px rgba(91,135,182,.1); }.voice-orb { display:grid; place-items:center; width:73%; height:73%; border:.4rem solid rgba(255,255,255,.23); border-radius:50%; color:#fff; background:radial-gradient(circle at 31% 21%,#63cbff 0%,#32a8eb 22%,#1e74d8 54%,#7042e8 100%); box-shadow:inset 0 3px 11px rgba(255,255,255,.28),inset 0 -14px 24px rgba(67,37,184,.26),0 20px 24px rgba(43,88,177,.35); }.voice-orb:hover { transform:translateY(-3px) scale(1.01); box-shadow:inset 0 3px 11px rgba(255,255,255,.28),inset 0 -14px 24px rgba(67,37,184,.26),0 25px 32px rgba(43,88,177,.43); }.voice-orb.is-listening { animation:listenPulse 1.3s ease-in-out infinite; }.voice-orb svg { width:39%; height:39%; stroke-width:2.55; }.voice-caption { margin-top:1.8rem; color:var(--blue); font-size:clamp(1.35rem,5vw,1.86rem); font-weight:700; letter-spacing:-.035em; }.speech-status { min-height:1.35rem; margin-top:.5rem; color:var(--muted); font-size:.8rem; text-align:center; }
+    .voice-stage { display:grid; justify-items:center; padding:clamp(1.9rem,7vw,3.2rem) 0 1.4rem; }.voice-halo { display:grid; place-items:center; width:clamp(15rem,57vw,21rem); height:clamp(15rem,57vw,21rem); border-radius:50%; background:rgba(212,233,251,.6); box-shadow:inset 0 0 0 1.5rem rgba(238,247,255,.76),0 17px 36px rgba(91,135,182,.1); }.voice-orb { display:grid; place-items:center; width:73%; height:73%; border:.4rem solid rgba(255,255,255,.23); border-radius:50%; color:#fff; background:radial-gradient(circle at 31% 21%,#63cbff 0%,#32a8eb 22%,#1e74d8 54%,#7042e8 100%); box-shadow:inset 0 3px 11px rgba(255,255,255,.28),inset 0 -14px 24px rgba(67,37,184,.26),0 20px 24px rgba(43,88,177,.35); }.voice-orb:hover { transform:translateY(-3px) scale(1.01); box-shadow:inset 0 3px 11px rgba(255,255,255,.28),inset 0 -14px 24px rgba(67,37,184,.26),0 25px 32px rgba(43,88,177,.43); }.voice-orb.is-recording { animation:listenPulse 1.3s ease-in-out infinite; }.voice-orb svg { width:39%; height:39%; stroke-width:2.55; }.voice-caption { margin-top:1.8rem; color:var(--blue); font-size:clamp(1.35rem,5vw,1.86rem); font-weight:700; letter-spacing:-.035em; }.speech-status { min-height:1.35rem; margin-top:.5rem; color:var(--muted); font-size:.8rem; text-align:center; }
     .composer { display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:end; gap:.55rem; width:min(100%,35rem); margin-top:1.85rem; padding:.48rem; border:1px solid rgba(60,96,139,.18); border-radius:1.4rem; background:rgba(255,255,255,.9); box-shadow:0 10px 26px rgba(56,92,130,.11); backdrop-filter:blur(16px); }.composer:focus-within { border-color:rgba(20,112,210,.5); box-shadow:0 0 0 4px rgba(20,112,210,.1),0 14px 28px rgba(56,92,130,.14); }.composer textarea { min-width:0; max-height:8.2rem; min-height:2.7rem; padding:.72rem .15rem; color:var(--ink); background:transparent; line-height:1.35; }.composer textarea::placeholder { color:#8d9aae; opacity:1; }.mini-icon-button { flex:0 0 auto; width:2.7rem; height:2.7rem; border-radius:.96rem; color:var(--blue); background:var(--blue-soft); }.mini-icon-button:hover { color:#fff; background:var(--blue); box-shadow:0 6px 14px rgba(20,112,210,.22); }.mini-icon-button svg { width:1.3rem; height:1.3rem; stroke-width:2.25; }.send-button { color:#fff; background:linear-gradient(140deg,#2588e1,#1264ca); }.send-button:hover { color:#fff; background:linear-gradient(140deg,#3999ed,#0f59b7); }.send-button:disabled { cursor:not-allowed; opacity:.58; box-shadow:none; transform:none; }.input-meta { width:min(100%,35rem); margin:.48rem auto 0; color:var(--muted); font-size:.7rem; text-align:right; }
 
     .bottom-navigation { position:fixed; z-index:8; right:0; bottom:0; left:0; display:grid; grid-template-columns:repeat(2,minmax(5.4rem,8.5rem)); justify-content:center; gap:1.1rem; min-height:calc(5.35rem + env(safe-area-inset-bottom)); padding:.55rem 1rem calc(.6rem + env(safe-area-inset-bottom)); border-top:1px solid rgba(86,110,143,.12); background:rgba(255,255,255,.92); box-shadow:0 -8px 28px rgba(48,85,128,.06); backdrop-filter:blur(18px); }.bottom-tab { flex-direction:column; gap:.28rem; min-height:4rem; border-radius:1rem; color:var(--ink); background:transparent; font-size:.81rem; font-weight:600; }.bottom-tab:hover { background:rgba(235,244,254,.8); }.bottom-tab.is-active { color:var(--blue); }.bottom-tab svg { width:1.8rem; height:1.8rem; stroke-width:2.1; }
@@ -102,18 +102,16 @@
   <script>
     const API_KEY_STORAGE = "ethiobox.geminiApiKey";
     const HISTORY_STORAGE = "ethiobox.conversationHistory";
-    const SPEECH_PAUSE_GRACE_MS = 7000;
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const RECORDING_MIME_TYPES = ['audio/webm;codecs=opus', 'audio/mp4', 'audio/ogg;codecs=opus', 'audio/webm', 'audio/ogg'];
     const $ = (id) => document.getElementById(id);
     const ui = { menu:$('menuButton'), quick:$('quickMenu'), clearHistory:$('clearHistoryButton'), settings:$('settingsButton'), lang:$('languageSelect'), langMenu:$('languageMenu'), amharic:$('responseAmharic'), english:$('responseEnglish'), speak:$('speakButton'), mic:$('micButton'), caption:$('voiceCaption'), status:$('speechStatus'), form:$('chatForm'), input:$('messageInput'), clear:$('clearButton'), send:$('sendButton'), counter:$('counter'), history:$('historyPanel'), historyList:$('historyList'), historyTab:$('historyTab'), languageTab:$('languageTab'), closeHistory:$('closeHistoryButton'), modal:$('settingsModal'), closeModal:$('closeSettingsButton'), cancelModal:$('cancelSettingsButton'), key:$('apiKeyInput'), showKey:$('toggleKeyVisibilityButton'), keyStatus:$('keyStatus'), removeKey:$('removeKeyButton'), saveKey:$('saveKeyButton'), toast:$('toast') };
 
-    let recognition, isListening = false, listenRequested = false, speechPauseTimer, restartTimer, lastSpeechAt = 0, latestAiText = ui.amharic.textContent.replace(/\s+/g, ' ').trim(), voices = [], toastTimer;
+    let mediaRecorder, recordingStream, recordingChunks = [], isRecording = false, recordingFailed = false, latestAudioData = '', currentAudio, toastTimer;
     const getKey = () => localStorage.getItem(API_KEY_STORAGE) || '';
     const status = (message) => { ui.status.textContent = message; };
     const showToast = (message) => { clearTimeout(toastTimer); ui.toast.textContent = message; ui.toast.hidden = false; toastTimer = setTimeout(() => ui.toast.hidden = true, 3200); };
     function resizeInput() { ui.input.style.height = 'auto'; ui.input.style.height = `${Math.min(ui.input.scrollHeight, 131)}px`; }
     function updateCounter() { ui.counter.textContent = `${ui.input.value.length} / 4000`; }
-    function clearSpeechTimers() { clearTimeout(speechPauseTimer); clearTimeout(restartTimer); }
     function setKeyStatus() { const saved = getKey(); ui.keyStatus.textContent = saved ? 'API key is saved locally in this browser.' : 'No API key saved in this browser.'; ui.removeKey.hidden = !saved; }
 
     function openSettings() { ui.modal.hidden = false; ui.key.type = 'password'; ui.key.value = getKey(); ui.showKey.setAttribute('aria-label', 'Show API key'); ui.showKey.innerHTML = '<i data-lucide="eye"></i>'; setKeyStatus(); lucide.createIcons(); setTimeout(() => ui.key.focus(), 0); }
@@ -126,38 +124,85 @@
     function addHistory(prompt, answer) { const items = history(); items.unshift({ prompt, answer, createdAt:new Date().toISOString() }); localStorage.setItem(HISTORY_STORAGE, JSON.stringify(items.slice(0, 20))); renderHistory(); }
     function setHistory(open) { ui.history.hidden = !open; ui.historyTab.classList.toggle('is-active', open); ui.languageTab.classList.toggle('is-active', !open); ui.historyTab.setAttribute('aria-expanded', String(open)); if (open) renderHistory(); }
 
-    function loadVoices() { if ('speechSynthesis' in window) voices = speechSynthesis.getVoices(); }
-    function speakText(text) { if (!('speechSynthesis' in window)) { showToast('Text-to-speech is not supported in this browser.'); return; } if (!text) return; speechSynthesis.cancel(); loadVoices(); const utterance = new SpeechSynthesisUtterance(text); utterance.lang = 'am-ET'; utterance.rate = .92; utterance.voice = voices.find((voice) => voice.lang.toLowerCase().startsWith('am')) || voices.find((voice) => voice.lang.toLowerCase().startsWith('en')) || null; utterance.onstart = () => status("Speaking EthioBox's reply..."); utterance.onend = () => status('Ready for your Amharic voice.'); utterance.onerror = () => status('Voice playback could not start in this browser.'); speechSynthesis.speak(utterance); }
-
-    function updateSpeechInput(interim = '') { const parts = [recognition.baseText, recognition.finalText, interim].filter(Boolean).map((text) => text.trim()); ui.input.value = parts.join(' ').replace(/\s+/g, ' ').trim(); updateCounter(); resizeInput(); }
-    function finishListening(message = 'Speech input paused. You can keep editing or send your message.') { clearSpeechTimers(); listenRequested = false; isListening = false; ui.mic.classList.remove('is-listening'); ui.mic.setAttribute('aria-pressed', 'false'); ui.mic.setAttribute('aria-label', 'Start speaking in Amharic'); ui.caption.textContent = 'Tap to speak'; status(message); }
-    function schedulePause() { clearTimeout(speechPauseTimer); const remaining = Math.max(0, SPEECH_PAUSE_GRACE_MS - (Date.now() - lastSpeechAt)); speechPauseTimer = setTimeout(() => { listenRequested = false; if (recognition && isListening) recognition.stop(); finishListening('Speech input paused after a 7-second silence. You can edit or send it now.'); }, remaining); }
-    function startRecognition() { if (!recognition || !listenRequested || isListening) return; try { recognition.start(); } catch (error) { if (error.name !== 'InvalidStateError') finishListening('Speech recognition could not start. Please try again.'); } }
-    function setupSpeech() {
-      if (!SpeechRecognition) { ui.mic.disabled = true; ui.mic.setAttribute('aria-label', 'Speech recognition is unavailable'); status('Speech recognition is not available in this browser. Try Chrome or Edge.'); return; }
-      recognition = new SpeechRecognition(); recognition.lang = 'am-ET'; recognition.continuous = true; recognition.interimResults = true; recognition.maxAlternatives = 1;
-      recognition.onstart = () => { isListening = true; ui.mic.classList.add('is-listening'); ui.mic.setAttribute('aria-pressed', 'true'); ui.mic.setAttribute('aria-label', 'Stop speaking'); ui.caption.textContent = 'Listening… tap to stop'; status('Listening for Amharic. Natural pauses of up to 7 seconds are okay.'); };
-      recognition.onresult = (event) => { let interim = ''; for (let index = event.resultIndex; index < event.results.length; index += 1) { const transcript = event.results[index][0].transcript; if (event.results[index].isFinal) recognition.finalText += `${transcript} `; else interim += transcript; } lastSpeechAt = Date.now(); updateSpeechInput(interim); schedulePause(); };
-      recognition.onerror = (event) => { if (['not-allowed','service-not-allowed','audio-capture'].includes(event.error)) { listenRequested = false; finishListening(`Speech recognition error: ${event.error}.`); } else if (!['no-speech','aborted'].includes(event.error)) status(`Speech recognition issue: ${event.error}. Still listening if possible…`); };
-      recognition.onend = () => { isListening = false; if (!listenRequested) { finishListening(); return; } const silence = Date.now() - lastSpeechAt; if (silence >= SPEECH_PAUSE_GRACE_MS) { finishListening('Speech input paused after a 7-second silence. You can edit or send it now.'); return; } status('Short pause detected — still listening for you…'); restartTimer = setTimeout(startRecognition, Math.min(300, SPEECH_PAUSE_GRACE_MS - silence)); schedulePause(); };
+    function canRecordAudio() { return Boolean(navigator.mediaDevices?.getUserMedia && window.MediaRecorder); }
+    function recordingMimeType() {
+      // If the browser cannot report codec support (older iOS Safari), let it
+      // choose its native recording format instead of assuming WebM is supported.
+      if (typeof MediaRecorder.isTypeSupported !== 'function') return '';
+      return RECORDING_MIME_TYPES.find((type) => MediaRecorder.isTypeSupported(type)) || '';
     }
-    function toggleListening() { if (!recognition) return; if (listenRequested) { listenRequested = false; if (isListening) recognition.stop(); finishListening('Speech input stopped. You can edit or send your message.'); return; } recognition.baseText = ui.input.value.trim(); recognition.finalText = ''; lastSpeechAt = Date.now(); listenRequested = true; schedulePause(); startRecognition(); }
+    function recordingFilename(mimeType) { if (mimeType.includes('mp4')) return 'ethiobox-recording.mp4'; if (mimeType.includes('ogg')) return 'ethiobox-recording.ogg'; return 'ethiobox-recording.webm'; }
+    function stopRecordingTracks() { recordingStream?.getTracks().forEach((track) => track.stop()); recordingStream = null; }
+    function resetRecordingUi(message = 'Ready for your Amharic voice.') { isRecording = false; ui.mic.classList.remove('is-recording'); ui.mic.setAttribute('aria-pressed', 'false'); ui.mic.setAttribute('aria-label', 'Record an Amharic message'); ui.caption.textContent = 'Tap to speak'; status(message); }
+    function playServerAudio(audioData = latestAudioData) { if (!audioData) { showToast('No server-generated audio is available for this reply.'); return; } currentAudio?.pause(); currentAudio = new Audio(`data:audio/mp3;base64,${audioData}`); currentAudio.onplay = () => status("Playing EthioBox's Amharic reply..."); currentAudio.onended = () => status('Ready for your Amharic voice.'); currentAudio.onerror = () => { status('The generated audio could not be played.'); showToast('The generated audio could not be played.'); }; currentAudio.play().catch(() => { status('Tap the speaker button to play the reply.'); showToast('Your browser needs a tap on the speaker button to play audio.'); }); }
+    async function startRecording() {
+      if (!canRecordAudio()) {
+        status('Audio recording is not supported in this browser.');
+        showToast('This device cannot record audio in the browser.');
+        return;
+      }
+      try {
+        recordingStream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation:true, noiseSuppression:true, autoGainControl:true } });
+        const mimeType = recordingMimeType();
+        mediaRecorder = mimeType ? new MediaRecorder(recordingStream, { mimeType }) : new MediaRecorder(recordingStream);
+        recordingChunks = [];
+        recordingFailed = false;
+        mediaRecorder.ondataavailable = (event) => { if (event.data.size) recordingChunks.push(event.data); };
+        mediaRecorder.onerror = () => {
+          recordingFailed = true;
+          recordingChunks = [];
+          stopRecordingTracks();
+          const message = 'Audio recording failed. Please check microphone access and try again.';
+          resetRecordingUi(message);
+          showToast(message);
+        };
+        mediaRecorder.onstop = async () => {
+          if (recordingFailed) {
+            recordingFailed = false;
+            return;
+          }
+          const recordedType = mediaRecorder.mimeType || mimeType || 'audio/webm';
+          const recording = new Blob(recordingChunks, { type:recordedType });
+          stopRecordingTracks();
+          resetRecordingUi('Recording complete. Transcribing your Amharic voice…');
+          if (!recording.size) { showToast('The recording was empty. Please try again.'); return; }
+          await sendAudioRecording(recording, recordedType);
+        };
+        mediaRecorder.start();
+        isRecording = true;
+        ui.mic.classList.add('is-recording');
+        ui.mic.setAttribute('aria-pressed', 'true');
+        ui.mic.setAttribute('aria-label', 'Stop recording');
+        ui.caption.textContent = 'Recording… tap to finish';
+        status('Recording your Amharic voice. Tap the microphone when you are done.');
+      } catch (error) {
+        stopRecordingTracks();
+        const denied = error.name === 'NotAllowedError' || error.name === 'SecurityError';
+        const message = denied ? 'Microphone access was denied. Allow microphone access and try again.' : 'The microphone could not be started. Please try again.';
+        resetRecordingUi(message);
+        showToast(message);
+      }
+    }
+    function toggleRecording() { if (isRecording && mediaRecorder?.state === 'recording') { mediaRecorder.stop(); return; } startRecording(); }
 
-    function setResponse(amharic, english) { latestAiText = amharic; ui.amharic.textContent = amharic; ui.english.replaceChildren(); english.split(/\n+/).filter(Boolean).forEach((line) => { const span = document.createElement('span'); span.textContent = line; ui.english.append(span); }); }
-    function loading(active) { ui.send.disabled = active; ui.input.disabled = active; ui.mic.disabled = active || !SpeechRecognition; }
-    async function sendMessage(event) { event.preventDefault(); const message = ui.input.value.trim(); if (!message) { ui.input.focus(); showToast('Write or speak an Amharic message first.'); return; } const apiKey = getKey(); if (!apiKey) { openSettings(); ui.keyStatus.textContent = 'Add your Gemini API key to send a message.'; return; } if (listenRequested) { listenRequested = false; if (isListening) recognition.stop(); } loading(true); status('EthioBox is translating and thinking…'); ui.caption.textContent = 'Thinking…'; try { const response = await fetch('/api/chat', { method:'POST', headers:{ 'Content-Type':'application/json' }, body:JSON.stringify({ message, api_key:apiKey }) }); const data = await response.json(); if (!response.ok) throw new Error(data.error || 'EthioBox could not complete this request.'); setResponse(data.amharic_response, data.english_response); addHistory(message, data.amharic_response); ui.input.value = ''; updateCounter(); resizeInput(); status(`Reply ready via ${data.model_used}.`); ui.caption.textContent = 'Tap to speak'; } catch (error) { status(error.message || 'EthioBox could not complete this request.'); ui.caption.textContent = 'Tap to speak'; showToast(error.message || 'EthioBox could not complete this request.'); } finally { loading(false); } }
+    function setResponse(amharic, english) { ui.amharic.textContent = amharic; ui.english.replaceChildren(); english.split(/\n+/).filter(Boolean).forEach((line) => { const span = document.createElement('span'); span.textContent = line; ui.english.append(span); }); }
+    function loading(active) { ui.send.disabled = active; ui.input.disabled = active; ui.mic.disabled = active || !canRecordAudio(); }
+    async function handleChatResponse(response, promptLabel) { const data = await response.json(); if (!response.ok) { const reasons = [data.error || 'EthioBox could not complete this request.', data.stage ? `Stage: ${data.stage}` : '', data.detail ? `Details: ${data.detail}` : ''].filter(Boolean); throw new Error(reasons.join(' — ')); } setResponse(data.amharic_response, data.english_response); latestAudioData = data.audio_data || ''; addHistory(promptLabel || data.amharic_input, data.amharic_response); ui.input.value = ''; updateCounter(); resizeInput(); ui.caption.textContent = 'Tap to speak'; if (data.audio_data) { status(`Reply ready via ${data.model_used}. Playing the Amharic audio…`); playServerAudio(data.audio_data); } else { status(data.audio_error || `Reply ready via ${data.model_used}. Audio was not available.`); if (data.audio_error) showToast(data.audio_error); } }
+    async function sendTextMessage(message) { const apiKey = getKey(); return fetch('/api/chat', { method:'POST', headers:{ 'Content-Type':'application/json' }, body:JSON.stringify({ message, api_key:apiKey }) }); }
+    async function sendAudioRecording(recording, mimeType) { const apiKey = getKey(); if (!apiKey) { openSettings(); ui.keyStatus.textContent = 'Add your Gemini API key before recording a message.'; return; } loading(true); status('Uploading and transcribing your Amharic recording…'); ui.caption.textContent = 'Transcribing…'; try { const formData = new FormData(); formData.append('api_key', apiKey); formData.append('audio', recording, recordingFilename(mimeType)); const response = await fetch('/api/chat', { method:'POST', body:formData }); await handleChatResponse(response, 'Voice message'); } catch (error) { status(error.message || 'EthioBox could not transcribe this recording.'); ui.caption.textContent = 'Tap to speak'; showToast(error.message || 'EthioBox could not transcribe this recording.'); } finally { loading(false); } }
+    async function sendMessage(event) { event.preventDefault(); const message = ui.input.value.trim(); if (!message) { ui.input.focus(); showToast('Write an Amharic message or use the microphone.'); return; } const apiKey = getKey(); if (!apiKey) { openSettings(); ui.keyStatus.textContent = 'Add your Gemini API key to send a message.'; return; } loading(true); status('EthioBox is translating and thinking…'); ui.caption.textContent = 'Thinking…'; try { await handleChatResponse(await sendTextMessage(message), message); } catch (error) { status(error.message || 'EthioBox could not complete this request.'); ui.caption.textContent = 'Tap to speak'; showToast(error.message || 'EthioBox could not complete this request.'); } finally { loading(false); } }
 
     ui.menu.addEventListener('click', () => { const open = ui.quick.hidden; ui.quick.hidden = !open; ui.menu.setAttribute('aria-expanded', String(open)); });
     ui.clearHistory.addEventListener('click', () => { localStorage.removeItem(HISTORY_STORAGE); renderHistory(); ui.quick.hidden = true; ui.menu.setAttribute('aria-expanded', 'false'); showToast('Conversation history cleared.'); });
     ui.lang.addEventListener('click', () => { const open = ui.langMenu.hidden; ui.langMenu.hidden = !open; ui.lang.setAttribute('aria-expanded', String(open)); });
     ui.settings.addEventListener('click', openSettings); ui.closeModal.addEventListener('click', closeSettings); ui.cancelModal.addEventListener('click', closeSettings); ui.saveKey.addEventListener('click', saveKey); ui.removeKey.addEventListener('click', removeKey);
     ui.showKey.addEventListener('click', () => { const visible = ui.key.type === 'password'; ui.key.type = visible ? 'text' : 'password'; ui.showKey.setAttribute('aria-label', visible ? 'Hide API key' : 'Show API key'); ui.showKey.innerHTML = `<i data-lucide="${visible ? 'eye-off' : 'eye'}"></i>`; lucide.createIcons(); });
-    ui.modal.addEventListener('click', (event) => { if (event.target === ui.modal) closeSettings(); }); ui.speak.addEventListener('click', () => speakText(latestAiText)); ui.mic.addEventListener('click', toggleListening); ui.form.addEventListener('submit', sendMessage);
+    ui.modal.addEventListener('click', (event) => { if (event.target === ui.modal) closeSettings(); }); ui.speak.addEventListener('click', () => playServerAudio()); ui.mic.addEventListener('click', toggleRecording); ui.form.addEventListener('submit', sendMessage);
     ui.clear.addEventListener('click', () => { ui.input.value = ''; updateCounter(); resizeInput(); ui.input.focus(); }); ui.input.addEventListener('input', () => { updateCounter(); resizeInput(); }); ui.historyTab.addEventListener('click', () => setHistory(ui.history.hidden)); ui.languageTab.addEventListener('click', () => setHistory(false)); ui.closeHistory.addEventListener('click', () => setHistory(false));
     document.addEventListener('click', (event) => { if (!ui.quick.hidden && !event.target.closest('.toolbar-menu')) { ui.quick.hidden = true; ui.menu.setAttribute('aria-expanded', 'false'); } if (!ui.langMenu.hidden && !event.target.closest('.language-area')) { ui.langMenu.hidden = true; ui.lang.setAttribute('aria-expanded', 'false'); } });
     document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { if (!ui.modal.hidden) closeSettings(); setHistory(false); ui.quick.hidden = true; ui.langMenu.hidden = true; ui.menu.setAttribute('aria-expanded', 'false'); ui.lang.setAttribute('aria-expanded', 'false'); } });
-    if ('speechSynthesis' in window) { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
-    setupSpeech(); setKeyStatus(); renderHistory(); updateCounter(); resizeInput(); lucide.createIcons();
+    if (!canRecordAudio()) { ui.mic.disabled = true; ui.mic.setAttribute('aria-label', 'Audio recording is unavailable'); status('Audio recording is not supported in this browser. You can still type a message.'); }
+    setKeyStatus(); renderHistory(); updateCounter(); resizeInput(); lucide.createIcons();
   </script>
 </body>
 </html>
